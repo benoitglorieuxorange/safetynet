@@ -1,18 +1,19 @@
 package com.globe.safetynet.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Data {
     private List<Person> persons;
-    private List<Firestation> firestations;
+    @JsonProperty("firestations")
+    private List<FireStation> fireStations;
+    @JsonProperty("medicalrecords")
+    private List<MedicalRecord> medicalRecords;
 
     public Data() {}
-
-    public Data(List<Person> persons, List<Firestation> firestations) {
-        this.persons = persons;
-        this.firestations = firestations;
-    }
 
     public List<Person> getPersons() {
         return persons;
@@ -22,19 +23,21 @@ public class Data {
         this.persons = persons;
     }
 
-    public List<Firestation> getFirestations() {
-        return firestations;
+
+    public List<FireStation> getFireStations() {
+        return fireStations;
     }
 
-    public void setFirestations(List<Firestation> firestations) {
-        this.firestations = firestations;
+    public void setFireStations(List<FireStation> firestations) {
+        this.fireStations = firestations;
     }
 
-    @Override
-    public String toString() {
-        return "Data{" +
-                "persons=" + persons +
-                ", firestations=" + firestations +
-                '}';
+
+    public List<MedicalRecord> getMedicalRecords() {
+        return medicalRecords;
+    }
+
+    public void setMedicalRecords(List<MedicalRecord> medicalRecords) {
+        this.medicalRecords = medicalRecords;
     }
 }
