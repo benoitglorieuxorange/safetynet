@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Console -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <!-- Fichier pour les requêtes HTTP -->
+        <RollingFile name="RequestLog"
+                     fileName="logs/requests.log"
+                     filePattern="logs/requests-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- Fichier pour les logs applicatifs -->
+        <RollingFile name="AppLog"
+                     fileName="logs/application.log"
+                     filePattern="logs/application-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Logger pour l'interceptor de requêtes -->
+        <Logger name="com.globe.safetynet.interceptor.RequestLoggingInterceptor"
+                level="info"
+                additivity="false">
+            <AppenderRef ref="RequestLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- Logger pour votre application -->
+        <Logger name="com.globe.safetynet" level="info" additivity="false">
+            <AppenderRef ref="AppLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- Spring Framework -->
+        <Logger name="org.springframework" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- Root logger -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppLog"/>
+        </Root>
+    </Loggers>
+</Configuration>
