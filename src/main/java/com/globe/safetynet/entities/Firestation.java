@@ -1,7 +1,7 @@
 package com.globe.safetynet.entities;
 
 public class Firestation {
-    //{ "address":"29 15th St", "station":"2" },
+
     private String address;
     private String stations;
 
