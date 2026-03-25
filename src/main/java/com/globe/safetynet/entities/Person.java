@@ -2,9 +2,9 @@ package com.globe.safetynet.entities;
 
 
 public class Person {
-
-    private String firstname;
-    private String lastname;
+//"firstName":"John", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6512", "email":"jaboyd@email.com" },
+    private String firstName;
+    private String lastName;
     private String address;
     private String city;
     private String zip;
@@ -13,20 +13,20 @@ public class Person {
 
     public Person(){}
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getAddress() {
