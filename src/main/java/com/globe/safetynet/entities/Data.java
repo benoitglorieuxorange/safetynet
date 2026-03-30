@@ -40,4 +40,6 @@ public class Data {
     public void setMedicalRecords(List<MedicalRecord> medicalRecords) {
         this.medicalRecords = medicalRecords;
     }
+
+
 }
