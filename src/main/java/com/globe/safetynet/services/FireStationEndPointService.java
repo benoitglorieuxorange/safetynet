@@ -24,5 +24,9 @@ public class FireStationEndPointService {
         return jsonRepository.deleteFireStation(fireStation.getAddress(), fireStation.getStation());
     }
 
+    public Optional<FireStation> updateFireStation(@NonNull FireStation fireStation) {
+        return jsonRepository.updateFireStation(fireStation.getAddress(), fireStation.getStation());
+    }
+
 
 }
