@@ -15,6 +15,12 @@ public class Data {
 
     public Data() {}
 
+    public Data(List<Person> persons, List<FireStation> fireStations, List<MedicalRecord> medicalRecords) {
+        this.persons = persons;
+        this.fireStations = fireStations;
+        this.medicalRecords = medicalRecords;
+    }
+
     public List<Person> getPersons() {
         return persons;
     }

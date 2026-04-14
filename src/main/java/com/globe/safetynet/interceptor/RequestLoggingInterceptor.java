@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class RequestLoggingInterceptor implements HandlerInterceptor {
 
-    private static final Logger logger = LogManager.getLogger(RequestLoggingInterceptor.class);
+    public static final Logger logger = LogManager.getLogger(RequestLoggingInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
