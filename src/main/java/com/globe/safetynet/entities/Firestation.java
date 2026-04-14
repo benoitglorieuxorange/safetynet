@@ -1,15 +1,16 @@
 package com.globe.safetynet.entities;
 
-public class Firestation {
+public class FireStation {
 
     private String address;
-    private String stations;
+    //@JsonProperty("station")
+    private String station;
 
-    public Firestation() {}
+    public FireStation() {}
 
-    public  Firestation(String address, String stations) {
+    public FireStation(String address, String station) {
         this.address = address;
-        this.stations = stations;
+        this.station = station;
     }
 
     public String getAddress() {
@@ -20,11 +21,11 @@ public class Firestation {
         this.address = address;
     }
 
-    public String getStations() {
-        return stations;
+    public String getStation() {
+        return station;
     }
 
-    public void setStations(String stations) {
-        this.stations = stations;
+    public void setStation(String station) {
+        this.station = station;
     }
 }
