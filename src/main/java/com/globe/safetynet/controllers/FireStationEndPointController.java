@@ -28,5 +28,9 @@ public class FireStationEndPointController {
         return ResponseEntity.ok(fireStationEndPointService.deleteFireStation(fireStation));
     }
 
+    @PutMapping
+    public ResponseEntity<Optional<FireStation>> updateFireStation(@RequestBody FireStation fireStation) {
+        return ResponseEntity.ok(fireStationEndPointService.updateFireStation(fireStation));
+    }
 
 }

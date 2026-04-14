@@ -95,8 +95,19 @@ public class JsonRepository {
         return result;
     }
 
-
-
+    public Optional<FireStation> updateFireStation(String address, String newStation) {
+        Optional<FireStation> result = data.getFireStations().stream()
+                .filter(fireStation ->
+                        fireStation.getAddress().equalsIgnoreCase(address)
+                )
+                .findFirst()
+                .map(fireStation -> {
+                    fireStation.setStation(newStation);
+                    return fireStation;
+                });
+        result.ifPresent(f -> saveData());
+        return result;
+    }
 
     public Optional<Person> deletePerson(String firstName, String lastName) {
         Optional<Person> personToDelete = data.getPersons().stream()
