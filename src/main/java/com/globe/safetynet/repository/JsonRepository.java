@@ -1,7 +1,9 @@
 package com.globe.safetynet.repository;
 
 import com.globe.safetynet.entities.Data;
+import com.globe.safetynet.entities.FireStation;
 import com.globe.safetynet.entities.Person;
+import com.globe.safetynet.services.FireStationService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
@@ -15,7 +17,12 @@ import java.util.Optional;
 @Repository
 public class JsonRepository {
 
+   // private final FireStationService fireStationService;
     private Data data;
+
+//    public JsonRepository(FireStationService fireStationService) {
+//        this.fireStationService = fireStationService;
+//    }
 
     @PostConstruct
     public void loadData() {
@@ -59,6 +66,16 @@ public class JsonRepository {
         return person;
     }
 
+    public FireStation addFireStation(FireStation fireStation) {
+        if (fireStation == null) {
+            throw new IllegalArgumentException("Le numéro de FireStation ne peut pas être null");
+        }
+        data.getFireStations().add(fireStation);
+        saveData();
+        return fireStation;
+    }
+
+
     public Optional<Person> updatePerson(String firstName, String lastName, Person updatedPerson) {
         Optional<Person> result = data.getPersons().stream()
                 .filter(person ->
@@ -78,6 +95,9 @@ public class JsonRepository {
         return result;
     }
 
+
+
+
     public Optional<Person> deletePerson(String firstName, String lastName) {
         Optional<Person> personToDelete = data.getPersons().stream()
                 .filter(person ->
@@ -94,14 +114,30 @@ public class JsonRepository {
         return personToDelete;
     }
 
+    public Optional<FireStation> deleteFireStation(String address, String station) {
+        Optional<FireStation> fireStationToDelete = data.getFireStations()
+                .stream()
+                .filter(stations -> stations.getAddress().equalsIgnoreCase(address) && stations.getStation().equals(station))
+                .findFirst();
 
-    private static final String DATA_FILE_PATH = "src/main/resources/data.json";
+        fireStationToDelete.ifPresent(Fire  -> {
+            data.getFireStations().remove(Fire);
+            saveData();
+        });
+
+        return fireStationToDelete;
+    }
+
+
+
+
+    private String dataFilePath = "src/main/resources/data.json";
 
     private void saveData() {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writerWithDefaultPrettyPrinter()
-                    .writeValue(new File(DATA_FILE_PATH), data);
+                    .writeValue(new File(dataFilePath), data);
         } catch (Exception e) {
             System.err.println("Error during backup : " + e.getMessage());
             e.printStackTrace();
