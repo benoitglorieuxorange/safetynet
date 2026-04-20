@@ -1,7 +1,7 @@
 package com.globe.safetynet.services;
 
 import com.globe.safetynet.entities.Person;
-import com.globe.safetynet.repository.JsonRepository;
+import com.globe.safetynet.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -9,22 +9,22 @@ import java.util.Optional;
 @Service
 public class PersonService {
 
-    public final JsonRepository jsonRepository;
+    public final PersonRepository personRepository;
 
-    public PersonService(JsonRepository jsonRepository) {
-        this.jsonRepository = jsonRepository;
+    public PersonService(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
 
     public Person addPerson(Person person){
-        return jsonRepository.addPerson(person);
+        return personRepository.add(person);
     }
 
     public Optional<Person> updatePerson(String firstName, String lastName, Person updatedPerson) {
-        return jsonRepository.updatePerson(firstName, lastName, updatedPerson);
+        return personRepository.update(firstName, lastName, updatedPerson);
     }
 
     public Optional<Person> deletePerson(String firstName, String lastName) {
-        return jsonRepository.deletePerson(firstName, lastName);
+        return personRepository.delete(firstName, lastName);
     }
 
 }

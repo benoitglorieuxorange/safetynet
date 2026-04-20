@@ -7,9 +7,10 @@ import com.globe.safetynet.entities.Data;
 import com.globe.safetynet.entities.FireStation;
 import com.globe.safetynet.entities.MedicalRecord;
 import com.globe.safetynet.entities.Person;
-import com.globe.safetynet.repository.JsonRepository;
+import com.globe.safetynet.repository.JsonRepositoryBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,15 +20,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Profile("disabled")
 @Service
 public class FireStationService {
 
         private static final Logger logger = LoggerFactory.getLogger(FireStationService.class);
         private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
-        private final JsonRepository jsonRepository;
-
-        public FireStationService(JsonRepository jsonRepository) {
+        private final JsonRepositoryBase jsonRepository;
+        public FireStationService(JsonRepositoryBase jsonRepository) {
                 this.jsonRepository = jsonRepository;
         }
 
