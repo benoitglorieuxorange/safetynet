@@ -1,6 +1,7 @@
 package com.globe.safetynet.utils;
 
 import com.globe.safetynet.entities.Data;
+import com.globe.safetynet.entities.FireStation;
 import com.globe.safetynet.entities.MedicalRecord;
 import com.globe.safetynet.entities.Person;
 
@@ -41,6 +42,14 @@ public class PersonUtils {
     public static List<Person> findPersonByAddress(Data data, List<String> addresses){
         return data.getPersons().stream()
                 .filter(person -> addresses.contains(person.getAddress()))
+                .toList();
+    }
+
+
+    public static List<String> findAddressesByStationNumber(Data data, String stationNumber) {
+        return data.getFireStations().stream()
+                .filter(fs -> stationNumber.equals(fs.getStation()))
+                .map(FireStation::getAddress)
                 .toList();
     }
 

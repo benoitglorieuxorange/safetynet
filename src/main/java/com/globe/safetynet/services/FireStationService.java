@@ -33,14 +33,14 @@ public class FireStationService {
                 logger.info("Searching Person cover by the station number: {}", stationNumber);
 
                 Data data = jsonRepository.getData();
-                PersonUtils.validateData(data);
+                validateData(data);
 
-                List<String> addresses = findAddressesByStationNumber(data, stationNumber);
+                List<String> addresses = PersonUtils.findAddressesByStationNumber(data, stationNumber);
                         if(addresses.isEmpty()){
                                 logger.warn("No address found for station number: {}", stationNumber);
                                 return null;
                         }
-                List<Person> persons = PersonUtils.findPersonByAddress(data, addresses);
+                List<Person> persons = findPersonByAddress(data, addresses);
                 if (persons.isEmpty()) {
                         logger.warn("No person found for stations {}", stationNumber);
                         return null;
@@ -73,7 +73,7 @@ public class FireStationService {
                         .toList();
         }
 
-        private PersonUtils.AgeCount countPersonByAge(List<Person> persons, Map<String, MedicalRecord> medicalRecordMap) {
+        private AgeCount countPersonByAge(List<Person> persons, Map<String, MedicalRecord> medicalRecordMap) {
                 int adultCount = 0;
                 int childCount = 0;
                 for (Person person : persons) {
@@ -81,20 +81,20 @@ public class FireStationService {
                         if (medicalRecord == null) {
                                 logger.warn("Missing medical record", person.getFirstName(),  person.getLastName());
                         }
-                        int age = PersonUtils.calculateAge(medicalRecord.getBirthdate());
+                        int age = calculateAge(medicalRecord.getBirthdate());
                         if (age >= 18){
                                 adultCount++;
                         }else {
                                 childCount++;
                         }
                 }
-                return new PersonUtils.AgeCount(adultCount, childCount);
+                return new AgeCount(adultCount, childCount);
         }
 
-        private List<String> findAddressesByStationNumber(Data data, String stationNumber) {
-                return data.getFireStations().stream()
-                        .filter(fs -> stationNumber.equals(fs.getStation()))
-                        .map(FireStation::getAddress)
-                        .toList();
-        }
+//        private List<String> findAddressesByStationNumber(Data data, String stationNumber) {
+//                return data.getFireStations().stream()
+//                        .filter(fs -> stationNumber.equals(fs.getStation()))
+//                        .map(FireStation::getAddress)
+//                        .toList();
+//        }
 } //EoC
