@@ -20,7 +20,7 @@ public class MedicalRecordRepository {
     }
 
     public MedicalRecord add(MedicalRecord record) {
-        if (record == null) throw new IllegalArgumentException("Le MedicalRecord ne peut pas être null");
+        if (record == null) throw new IllegalArgumentException("MedicalRecord cannot be null");
         getMedicalRecords().add(record);
         jsonRepository.saveData();
         return record;

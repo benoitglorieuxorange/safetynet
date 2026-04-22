@@ -20,7 +20,7 @@ public class FireStationRepository {
     }
 
     public FireStation add(FireStation fireStation) {
-        if (fireStation == null) throw new IllegalArgumentException("La FireStation ne peut pas être null");
+        if (fireStation == null) throw new IllegalArgumentException("FireStation number cannot be null");
         getFireStations().add(fireStation);
         jsonRepository.saveData();
         return fireStation;

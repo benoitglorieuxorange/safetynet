@@ -24,21 +24,21 @@ public class JsonRepositoryBase {
             this.data = mapper.readValue(inputStream, Data.class);
 
             if (data != null) {
-                System.out.println("Données chargées avec succès :");
-                System.out.println("  - Personnes : " + (data.getPersons() != null ? data.getPersons().size() : 0));
+                System.out.println("Data load with success :");
+                System.out.println("  - Person : " + (data.getPersons() != null ? data.getPersons().size() : 0));
                 System.out.println("  - FireStations : " + (data.getFireStations() != null ? data.getFireStations().size() : 0));
                 System.out.println("  - MedicalRecords : " + data.getMedicalRecords().size());
             } else {
-                System.err.println("Les données sont null après chargement !");
+                System.err.println("Data are null !");
             }
         } catch (IOException e) {
-            System.err.println("Erreur lors du chargement du fichier JSON : " + e.getMessage());
+            System.err.println("JSON file cannot be read: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     public Data getData() {
-        if (data == null) throw new IllegalStateException("Les données n'ont pas été chargées");
+        if (data == null) throw new IllegalStateException("Data cannot be load");
         return data;
     }
 
@@ -48,7 +48,7 @@ public class JsonRepositoryBase {
             mapper.writerWithDefaultPrettyPrinter()
                     .writeValue(new File(dataFilePath), data);
         } catch (Exception e) {
-            System.err.println("Erreur lors de la sauvegarde : " + e.getMessage());
+            System.err.println("Error during Json file Save  : " + e.getMessage());
             e.printStackTrace();
         }
     }
