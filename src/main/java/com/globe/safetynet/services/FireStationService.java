@@ -90,11 +90,4 @@ public class FireStationService {
                 }
                 return new AgeCount(adultCount, childCount);
         }
-
-//        private List<String> findAddressesByStationNumber(Data data, String stationNumber) {
-//                return data.getFireStations().stream()
-//                        .filter(fs -> stationNumber.equals(fs.getStation()))
-//                        .map(FireStation::getAddress)
-//                        .toList();
-//        }
 } //EoC
