@@ -39,6 +39,12 @@ public class PersonUtils {
         }
     }
 
+    public static List<Person> findPersonByAddress(Data data, String address){
+        return data.getPersons().stream()
+                .filter(person -> address.contains(person.getAddress()))
+                .toList();
+    }
+
     public static List<Person> findPersonByAddress(Data data, List<String> addresses){
         return data.getPersons().stream()
                 .filter(person -> addresses.contains(person.getAddress()))
