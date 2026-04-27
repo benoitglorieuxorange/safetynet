@@ -40,7 +40,7 @@ public class FireAlertController {
             }
             return ResponseEntity.ok(response);
         }catch (Exception e){
-            ogger.error("Error fetching fire alert for address {}: {}", address, e.getMessage());
+            logger.error("Error fetching fire alert for address {}: {}", address, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
