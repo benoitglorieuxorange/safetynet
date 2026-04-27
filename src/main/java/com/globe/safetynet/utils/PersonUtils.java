@@ -52,6 +52,12 @@ public class PersonUtils {
     }
 
 
+    public static List<Person> findPersonByLastName(Data data, String lastName){
+        return data.getPersons().stream()
+                .filter(person -> lastName.contains(person.getLastName()))
+                .toList();
+    }
+
     public static List<String> findAddressesByStationNumber(Data data, String stationNumber) {
         return data.getFireStations().stream()
                 .filter(fs -> stationNumber.equals(fs.getStation()))

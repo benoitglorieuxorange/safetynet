@@ -39,7 +39,7 @@ public class CommunityEmailController {
             logger.info(" Successfully found data for Get /communityEmail?city={}", city);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e) {
-            logger.error("Unexpected error while processing address {}{}", e, city);
+            logger.error("Unexpected error while processing city {}{}", e, city);
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Internal Server Error");
         }
