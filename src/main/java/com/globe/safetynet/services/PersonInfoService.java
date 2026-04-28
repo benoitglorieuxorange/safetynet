@@ -13,17 +13,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Service
 public class PersonInfoService {
     private static final Logger logger = LoggerFactory.getLogger(PersonInfoService.class);
 
     private JsonRepositoryBase jsonRepositoryBase;
+    private final PersonMappingService  personMappingService;
 
-    public PersonInfoService(JsonRepositoryBase jsonRepositoryBase) {
+    public PersonInfoService(JsonRepositoryBase jsonRepositoryBase, PersonMappingService personMappingService) {
         this.jsonRepositoryBase = jsonRepositoryBase;
+        this.personMappingService = personMappingService;
     }
 
     public List<PersonInfoDTO> getPersonInfoByLastname(String LastName) {
@@ -34,31 +35,35 @@ public class PersonInfoService {
 
         List<Person> persons = PersonUtils.findPersonByLastName(data, LastName);
 
-        Map<String, MedicalRecordDTO> medicalRecordMap = buildMedicalRecordMap(data, persons);
+        Map<String, MedicalRecordDTO> medicalRecordMap = personMappingService.buildMedicalRecordMap(data, persons);
 
-        List<PersonInfoDTO> personInfoDTOs = persons.stream()
-                .map(person -> {
-                    String fullName = PersonUtils.buildFullName(person);
-                    MedicalRecordDTO dto = medicalRecordMap.get(fullName);
-                    return new PersonInfoDTO(person.getFirstName(),person.getLastName(),person.getAddress(),person.getEmail(),dto.age(),dto.medicalRecord().getMedications(),dto.medicalRecord().getAllergies());
-                })
+//        List<PersonInfoDTO> personInfoDTOs = persons.stream()
+//                .map(person -> {
+//                    String fullName = PersonUtils.buildFullName(person);
+//                    MedicalRecordDTO dto = medicalRecordMap.get(fullName);
+//                    return new PersonInfoDTO(
+//                            person.getFirstName(),
+//                            person.getLastName(),
+//                            person.getAddress(),
+//                            person.getEmail(),
+//                            dto.age(),
+//                            dto.medicalRecord().getMedications(),
+//                            dto.medicalRecord().getAllergies());
+//                })
+//                .toList();
+//        return personInfoDTOs;
+
+        return personMappingService.extractPersonMedicalData(persons, medicalRecordMap)
+                .stream()
+                .map(d -> new PersonInfoDTO(
+                        d.firstName(),
+                        d.lastName(),
+                        d.address(),
+                        d.email(),
+                        d.age(),
+                        d.medications(),
+                        d.allergies()))
                 .toList();
-        return personInfoDTOs;
-
     }
 
-    private Map<String, MedicalRecordDTO> buildMedicalRecordMap(Data data, List<Person> persons) {
-        Set<String> personFullNames = persons.stream()
-                .map(PersonUtils::buildFullName)
-                .collect(Collectors.toSet());
-        return data.getMedicalRecords().stream()
-                .filter(mr -> personFullNames.contains(PersonUtils.buildFullName(mr)))
-                .collect(Collectors.toMap(
-                        PersonUtils::buildFullName,
-                        mr -> new MedicalRecordDTO(
-                                mr,
-                                PersonUtils.calculateAge(mr.getBirthdate())
-                        )
-                ));
-    }
-}
+}//EofC
