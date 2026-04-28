@@ -12,16 +12,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Service
 public class FireAlertService {
 
     private static final Logger logger = LoggerFactory.getLogger(FireAlertService.class);
     private JsonRepositoryBase repository;
-    public FireAlertService(JsonRepositoryBase repository) {
+    private PersonMappingService personMappingService;
+
+    public FireAlertService(JsonRepositoryBase repository, PersonMappingService personMappingService) {
         this.repository = repository;
+        this.personMappingService = personMappingService;
     }
 
     public FireAlertDTO getPersonByAddress(String address) {
@@ -39,41 +41,21 @@ public class FireAlertService {
 
         String fireStation = findStationNumberByAddress(data, address);
 
-        Map<String, MedicalRecordDTO> medicalRecordMap = buildMedicalRecordMap(data, persons);
+        Map<String, MedicalRecordDTO> medicalRecordMap = personMappingService.buildMedicalRecordMap(data, persons);
 
-        List<PersonFireAlertDTO> personFireAlertDTOs = persons.stream()
-                .map(person -> {
-                    String fullName = PersonUtils.buildFullName(person);
-                    MedicalRecordDTO dto = medicalRecordMap.get(fullName);
-                    return new PersonFireAlertDTO(
-                            person.getFirstName(),
-                            person.getLastName(),
-                            dto.age(),
-                            dto.medicalRecord().getMedications(),
-                            dto.medicalRecord().getAllergies()
-                    );
-                })
-                .toList();
+        List<PersonFireAlertDTO> personFireAlertDTOs =
+                personMappingService.extractPersonMedicalData(persons, medicalRecordMap)
+                        .stream()
+                        .map(d -> new PersonFireAlertDTO(
+                                d.firstName(),
+                                d.lastName(),
+                                d.age(),
+                                d.medications(),
+                                d.allergies()))
+                        .toList();
+
         return new FireAlertDTO(personFireAlertDTOs, fireStation);
     }
-
-    private Map<String, MedicalRecordDTO> buildMedicalRecordMap(Data data, List<Person> persons) {
-        Set<String> personFullNames = persons.stream()
-                .map(PersonUtils::buildFullName)
-                .collect(Collectors.toSet());
-
-        return data.getMedicalRecords().stream()
-                .filter(mr -> personFullNames.contains(PersonUtils.buildFullName(mr)))
-                .collect(Collectors.toMap(
-                        PersonUtils::buildFullName,
-                        mr -> new MedicalRecordDTO(
-                                mr,
-                                PersonUtils.calculateAge(mr.getBirthdate())
-                        )
-                ));
-    }
-
-
 
     public static String findStationNumberByAddress(Data data, String address) {
         return data.getFireStations().stream()
