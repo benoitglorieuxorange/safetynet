@@ -62,6 +62,7 @@ public class PersonMappingService {
                             person.getLastName(),
                             person.getAddress(),
                             person.getEmail(),
+                            person.getPhone(),
                             dto.age(),
                             dto.medicalRecord().getMedications(),
                             dto.medicalRecord().getAllergies()
