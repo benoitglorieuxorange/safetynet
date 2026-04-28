@@ -1,9 +1,6 @@
 package com.globe.safetynet.controllers;
 
-import com.globe.safetynet.dtos.DeletePersonDTO;
-import com.globe.safetynet.entities.FireStation;
 import com.globe.safetynet.entities.MedicalRecord;
-import com.globe.safetynet.entities.Person;
 import com.globe.safetynet.services.MedicalRecordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

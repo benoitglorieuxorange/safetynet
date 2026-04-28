@@ -234,6 +234,9 @@
   }, {
     "address" : "1234 rue des fontaines",
     "station" : "1"
+  }, {
+    "address" : null,
+    "station" : null
   } ],
   "medicalrecords" : [ {
     "firstName" : "John",
@@ -328,7 +331,7 @@
   }, {
     "firstName" : "Jamie",
     "lastName" : "Peters",
-    "birthdate" : "03/06/1982",
+    "birthdate" : "03/06/2020",
     "medications" : [ ],
     "allergies" : [ ]
   }, {
@@ -373,5 +376,11 @@
     "birthdate" : "08/06/1945",
     "medications" : [ "tradoxidine:400mg" ],
     "allergies" : [ ]
+  }, {
+    "firstName" : "Benoit",
+    "lastName" : "GLORIEUX",
+    "birthdate" : "01/02/1975",
+    "medications" : [ "IntellijIdea:300mg", "VsCode:30mg" ],
+    "allergies" : [ "TestUnitaire" ]
   } ]
 }

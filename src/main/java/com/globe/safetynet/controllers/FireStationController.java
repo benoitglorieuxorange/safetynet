@@ -7,18 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.logging.Level;
-
 
 
 @RestController
 public class FireStationController {
 
-    //private static final Logger logger = (Logger) LoggerFactory.getLogger(FireStationController.class);
+
     private static final Logger logger = LoggerFactory.getLogger(FireStationController.class);
 
 
@@ -27,21 +23,6 @@ public class FireStationController {
         this.fireStationService = fireStationService;
     }
 
-//    @GetMapping("/firestation")
-//    public ResponseEntity<FireStationResponseDTO> getPersonByFireStation(@RequestParam String stationNumber) {
-//        logger.info("Requête reçue dans le controller /firestation");
-//
-//        return new ResponseEntity<>(fireStationService.getPersonsByFireStationNumber(stationNumber), HttpStatus.OK);
-//
-//    }
-
-//    @GetMapping("/firestation/{stationNumber}")
-//    public ResponseEntity<FireStationResponseDTO> getPersonByFireStation(@PathVariable String stationNumber) {
-//        logger.info("Requête reçue dans le controller /firestation");
-//
-//        return new ResponseEntity<>(fireStationService.getPersonsByFireStationNumber(stationNumber), HttpStatus.OK);
-//
-//    }
     @GetMapping("/firestation")
     public ResponseEntity<?> getPersonByFireStation(@RequestParam int stationNumber) {
         logger.info(" GET /firestation?stationNumber=<stationNumber>" + stationNumber + ">");

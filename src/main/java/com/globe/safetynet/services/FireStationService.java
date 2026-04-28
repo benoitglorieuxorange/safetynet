@@ -8,24 +8,21 @@ import com.globe.safetynet.entities.FireStation;
 import com.globe.safetynet.entities.MedicalRecord;
 import com.globe.safetynet.entities.Person;
 import com.globe.safetynet.repository.JsonRepositoryBase;
+import com.globe.safetynet.utils.PersonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Profile("disabled")
+import static com.globe.safetynet.utils.PersonUtils.*;
+
 @Service
 public class FireStationService {
 
         private static final Logger logger = LoggerFactory.getLogger(FireStationService.class);
-        private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
         private final JsonRepositoryBase jsonRepository;
         public FireStationService(JsonRepositoryBase jsonRepository) {
@@ -38,14 +35,12 @@ public class FireStationService {
                 Data data = jsonRepository.getData();
                 validateData(data);
 
-                List<String> addresses = findAddressesByStationNumber(data, stationNumber);
+                List<String> addresses = PersonUtils.findAddressesByStationNumber(data, stationNumber);
                         if(addresses.isEmpty()){
                                 logger.warn("No address found for station number: {}", stationNumber);
                                 return null;
                         }
-
-
-                List<Person> persons = findPersonsByAddresses(data, addresses);
+                List<Person> persons = findPersonByAddress(data, addresses);
                 if (persons.isEmpty()) {
                         logger.warn("No person found for stations {}", stationNumber);
                         return null;
@@ -56,13 +51,13 @@ public class FireStationService {
                 AgeCount ageCount = countPersonByAge(persons, medicalRecordMap);
                 logger.info("Station {}: {} persons, {} adults, {} childrens",
                         stationNumber, persons.size(), ageCount.adultCount(), ageCount.childCount());
-                return new FireStationResponseDTO(personDTO, ageCount.adultCount, ageCount.childCount());
+                return new FireStationResponseDTO(personDTO, ageCount.adultCount(), ageCount.childCount());
         }
 
         private Map<String, MedicalRecord> buildMedicalRecordMap(Data data) {
                 return data.getMedicalRecords().stream()
                         .collect(Collectors.toMap(
-                                this::buildFullName,
+                                PersonUtils::buildFullName,
                                 medicalRecord -> medicalRecord
                         ));
         }
@@ -89,46 +84,10 @@ public class FireStationService {
                         int age = calculateAge(medicalRecord.getBirthdate());
                         if (age >= 18){
                                 adultCount++;
-                        }else if (age < 18){
+                        }else {
                                 childCount++;
                         }
                 }
                 return new AgeCount(adultCount, childCount);
-        }
-
-        private String buildFullName(Person person) {
-                return person.getFirstName() + " " + person.getLastName().toUpperCase();
-        }
-
-        private String buildFullName(MedicalRecord medicalRecord) {
-                return medicalRecord.getFirstName() + " " + medicalRecord.getLastName().toUpperCase();
-        }
-
-        private int calculateAge(String birthdate) {
-                LocalDate birthDate = LocalDate.parse(birthdate, DATE_FORMATTER);
-                return Period.between(birthDate, LocalDate.now()).getYears();
-        }
-
-        private List<String> findAddressesByStationNumber(Data data, String stationNumber) {
-                return data.getFireStations().stream()
-                        .filter(fs -> stationNumber.equals(fs.getStation()))
-                        .map(FireStation::getAddress)
-                        .toList();
-        }
-
-        private void validateData(Data data) {
-                if (data == null) {
-                        logger.error("Repository return null data");
-                        throw new IllegalArgumentException("Repository return null data");
-                }
-        }
-
-        private List<Person> findPersonsByAddresses(Data data, List<String> addresses) {
-                return data.getPersons().stream()
-                        .filter(person -> addresses.contains(person.getAddress()))
-                        .toList();
-        }
-
-        private record AgeCount(int adultCount, int childCount) {
         }
 } //EoC
