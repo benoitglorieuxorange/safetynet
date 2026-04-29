@@ -46,8 +46,5 @@ public class PersonInfoController {
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body("Internal Server Error");
             }
-
-            //return ResponseEntity.ok(personInfoService.getPersonInfoByLastname(lastName));
     }
-
 }

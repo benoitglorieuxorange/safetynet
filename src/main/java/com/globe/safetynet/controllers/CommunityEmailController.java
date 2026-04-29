@@ -43,7 +43,6 @@ public class CommunityEmailController {
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Internal Server Error");
         }
-        //return ResponseEntity.ok(communityEmailService.getCommunityEmails(city));
     }
 
 }
