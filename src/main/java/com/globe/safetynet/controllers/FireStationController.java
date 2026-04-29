@@ -29,7 +29,6 @@ public class FireStationController {
 
         if (stationNumber < 1 || stationNumber > 4) {
             logger.warn("Invalid stationNumber: {}",  stationNumber);
-
             return ResponseEntity
                     .badRequest()
                     .body("station Number must be between 1 and 4 inclusive.");
@@ -51,6 +50,4 @@ public class FireStationController {
                     .body("Internal Server Error");
         }
     }
-
-
 } // endOfClass

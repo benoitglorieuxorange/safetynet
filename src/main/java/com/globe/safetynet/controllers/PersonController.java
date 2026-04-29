@@ -35,6 +35,4 @@ public class PersonController {
                 ))
                 .orElse(ResponseEntity.notFound().build());
     }
-
-
 }
