@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 public class FireAlertController {
@@ -31,17 +30,15 @@ public class FireAlertController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try{
-            //return ResponseEntity.ok(fireAlertService.getPersonByAddress(address));
-            //List<String> response = fireAlertService.getPersonByAddress(address);
-            FireAlertDTO response = fireAlertService.getPersonByAddress(address);
-            if(response == null){
-                logger.warn(" Response is null");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-            return ResponseEntity.ok(response);
+                FireAlertDTO response = fireAlertService.getPersonByAddress(address);
+                if(response == null){
+                    logger.warn(" Response is null");
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                }
+                return ResponseEntity.ok(response);
         }catch (Exception e){
-            logger.error("Error fetching fire alert for address {}: {}", address, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                logger.error("Error fetching fire alert for address {}: {}", address, e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
     }
