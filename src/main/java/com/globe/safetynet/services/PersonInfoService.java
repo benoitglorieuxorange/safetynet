@@ -37,21 +37,6 @@ public class PersonInfoService {
 
         Map<String, MedicalRecordDTO> medicalRecordMap = personMappingService.buildMedicalRecordMap(data, persons);
 
-//        List<PersonInfoDTO> personInfoDTOs = persons.stream()
-//                .map(person -> {
-//                    String fullName = PersonUtils.buildFullName(person);
-//                    MedicalRecordDTO dto = medicalRecordMap.get(fullName);
-//                    return new PersonInfoDTO(
-//                            person.getFirstName(),
-//                            person.getLastName(),
-//                            person.getAddress(),
-//                            person.getEmail(),
-//                            dto.age(),
-//                            dto.medicalRecord().getMedications(),
-//                            dto.medicalRecord().getAllergies());
-//                })
-//                .toList();
-//        return personInfoDTOs;
 
         return personMappingService.extractPersonMedicalData(persons, medicalRecordMap)
                 .stream()
