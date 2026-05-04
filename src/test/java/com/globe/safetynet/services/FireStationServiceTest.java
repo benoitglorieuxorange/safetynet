@@ -2,7 +2,7 @@ package com.globe.safetynet.services;
 
 import com.globe.safetynet.dtos.FireStationResponseDTO;
 import com.globe.safetynet.entities.*;
-import com.globe.safetynet.repository.JsonRepository;
+import com.globe.safetynet.repository.JsonRepositoryBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 class FireStationServiceTest {
 
     @Mock
-    private JsonRepository repository;
+    private JsonRepositoryBase repository;
 
     @InjectMocks
     private FireStationService service;
