@@ -1,0 +1,17 @@
+{
+    "persons": [
+        { "firstName":"John", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6512", "email":"jaboyd@email.com" },
+        { "firstName":"Jacob", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6513", "email":"drk@email.com" }
+	], 
+    "firestations": [
+	    { "address":"947 E. Rose Dr", "station":"1" },
+        { "address":"748 Townings Dr", "station":"3" },
+        { "address":"951 LoneTree Rd", "station":"2" }
+	],
+    "medicalrecords": [
+        { "firstName":"Shawna", "lastName":"Stelzer", "birthdate":"07/08/1980", "medications":[], "allergies":[] },
+        { "firstName":"Kendrik", "lastName":"Stelzer", "birthdate":"03/06/2014", "medications":["noxidian:100mg", "pharmacol:2500mg"], "allergies":[] },
+        { "firstName":"Clive", "lastName":"Ferguson", "birthdate":"03/06/1994", "medications":[], "allergies":[] },
+        { "firstName":"Eric", "lastName":"Cadigan", "birthdate":"08/06/1945", "medications":["tradoxidine:400mg"], "allergies":[] }
+        ] 
+}
