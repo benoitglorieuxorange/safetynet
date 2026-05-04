@@ -13,6 +13,7 @@ public class FireStation {
         this.station = station;
     }
 
+
     public String getAddress() {
         return address;
     }
